@@ -34,4 +34,14 @@ javafx {
     version = '11.0.2'
 }
 
-mainClassName = 'net.strobl.management.App'
+mainClassName = 'net.strobl.management.Launcher'
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.strobl.management.Launcher'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
