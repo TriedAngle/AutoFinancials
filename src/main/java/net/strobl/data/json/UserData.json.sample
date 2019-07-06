@@ -1,0 +1,5 @@
+{
+  "username": "<name>",
+  "password": "<password>",
+  "url": "jdbc:postgresql://<url:port>/<databasename>"
+}

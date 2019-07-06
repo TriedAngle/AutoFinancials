@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="997.0" prefWidth="1918.0" styleClass="MainStyleSheet" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.strobl.frontend.general.MainController">
+   <children>
+      <VBox prefHeight="1000.0" prefWidth="300.0" style="-fx-background-color: #333638;">
+         <children>
+            <Label prefHeight="130.0" prefWidth="300.0" style="-fx-background-color: #16bdff;" text="AutoFinancials 0.6" textFill="WHITE">
+               <font>
+                  <Font name="Cantarell Extra Bold" size="30.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <effect>
+                  <DropShadow blurType="ONE_PASS_BOX" />
+               </effect>
+            </Label>
+            <HBox prefHeight="75.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonDashboard" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="75.0" mnemonicParsing="false" onAction="#loadDashboard" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: transparent; -fx-border-color: transparent; " stylesheets="@MainStyleSheet.css" text="Dashboard" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="75.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonBills" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="75.0" mnemonicParsing="false" onAction="#loadBills" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: transparent; -fx-border-color: transparent; " text="Bills" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="75.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonProjects" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="75.0" mnemonicParsing="false" onAction="#loadProjects" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: transparent; -fx-border-color: transparent; " text="Projects" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="75.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonSettings" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="75.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: transparent; -fx-border-color: transparent; " text="Settings" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="560.0" prefWidth="300.0" />
+            <Button fx:id="buttonExit" maxHeight="75.0" maxWidth="1.7976931348623157E308" minHeight="75.0" mnemonicParsing="false" onAction="#exit" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: transparent; -fx-border-color: transparent; " text="Exit" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <VBox layoutX="300.0" prefHeight="1000.0" prefWidth="1620.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Label fx:id="labelCurrentTab" prefHeight="100.0" prefWidth="1620.0" style="-fx-background-color: #ffffff;" text="Current Tab" textFill="#3c3c3c">
+                     <font>
+                        <Font name="DejaVu Serif Bold" size="35.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <effect>
+                  <DropShadow blurType="ONE_PASS_BOX" height="24.03" radius="10.7575" />
+               </effect>
+            </HBox>
+            <AnchorPane fx:id="anchorPaneDisplay" prefHeight="900.0" prefWidth="1620.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,9 @@
+.button {
+    -fx-background-color: transparent;
+}
+
+.button:hover, .button:focused{
+    -fx-text-fill: Gray;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}

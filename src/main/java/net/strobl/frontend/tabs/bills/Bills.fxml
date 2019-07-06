@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="900.0" prefWidth="1620.0" stylesheets="@TableViewStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.strobl.frontend.tabs.bills.BillsController">
+   <children>
+      <VBox layoutY="200.0" prefHeight="700.0" prefWidth="1620.0">
+         <children>
+            <TableView fx:id="displayBills" prefHeight="700.0" prefWidth="1620.0" stylesheets="@TableViewStyle.css">
+              <columns>
+                <TableColumn fx:id="columnBillID" prefWidth="75.0" text="Bill ID" />
+                <TableColumn fx:id="columnAmount" prefWidth="100.0" text="Amount" />
+                  <TableColumn fx:id="columnDateOfOrder" prefWidth="170.0" text="Date of Order" />
+                  <TableColumn fx:id="columnReceivedOn" prefWidth="170.0" text="Received on" />
+                  <TableColumn fx:id="columnDateOfPayment" prefWidth="170.0" text="Date of Payment" />
+                  <TableColumn fx:id="columnOrderedBy" prefWidth="175.0" text="Ordered By" />
+                  <TableColumn fx:id="columnReason" prefWidth="200.0" text="Reason" />
+                  <TableColumn fx:id="columnSeller" prefWidth="150.0" text="Seller" />
+                  <TableColumn fx:id="columnProducts" prefWidth="100.0" text="Products" />
+                  <TableColumn fx:id="columnDigital" prefWidth="75.0" text="Digital" />
+                  <TableColumn fx:id="columnProjects" prefWidth="150.0" text="Project" />
+                  <TableColumn fx:id="columnPaid" minWidth="0.0" prefWidth="85.0" text="Paid" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <HBox prefHeight="200.0" prefWidth="1620.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Separator prefHeight="42.0" prefWidth="200.0" visible="false" />
+                  <MenuButton fx:id="buttonSelectProject" mnemonicParsing="false" prefHeight="26.0" prefWidth="135.0" text="Select Project" />
+                  <Separator prefHeight="25.0" prefWidth="200.0" visible="false" />
+                  <MenuButton fx:id="buttonSelectFilter" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="140.0" text="Filter" />
+                  <Separator prefHeight="25.0" prefWidth="200.0" visible="false" />
+                  <ToggleButton fx:id="buttonShowUnpaid" mnemonicParsing="false" onAction="#toggleShowUnpaid" prefHeight="26.0" prefWidth="135.0" text="Show Paid Only" />
+                  <Separator prefHeight="43.0" prefWidth="200.0" visible="false" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="150.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" text="Money Spent:">
+                     <VBox.margin>
+                        <Insets top="13.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" text="Money Gained:">
+                     <VBox.margin>
+                        <Insets top="13.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" text="Total Revenue:">
+                     <VBox.margin>
+                        <Insets top="13.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="150.0">
+               <children>
+                  <Label fx:id="labelMoneySpent" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" text="&lt;Money Spent&gt;">
+                     <VBox.margin>
+                        <Insets top="13.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="labelMoneyGained" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" text="&lt;Money Gained&gt;">
+                     <VBox.margin>
+                        <Insets top="13.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="labelTotalRevenue" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="150.0" text="&lt;Total Revenue&gt;">
+                     <VBox.margin>
+                        <Insets top="13.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="70.0" />
+            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <TextField fx:id="textDeleteBill" prefHeight="38.0" prefWidth="171.0" promptText="Bill ID" />
+                  <Button fx:id="buttonDeleteBill" mnemonicParsing="false" onAction="#deleteBill" prefHeight="44.0" prefWidth="121.0" text="Delete Bill" />
+               </children>
+            </HBox>
+            <Button fx:id="buttonRefresh" contentDisplay="CENTER" mnemonicParsing="false" onAction="#refresh" prefHeight="26.0" prefWidth="119.0" text="Refresh" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="572.0" visible="false" />
+            <VBox prefHeight="200.0" prefWidth="124.0">
+               <children>
+                  <Separator prefHeight="85.0" prefWidth="71.0" visible="false" />
+                  <Button fx:id="buttonNewBill" alignment="CENTER" mnemonicParsing="false" onAction="#showAddBillMenu" prefHeight="26.0" prefWidth="136.0" text="Add a new Bill" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

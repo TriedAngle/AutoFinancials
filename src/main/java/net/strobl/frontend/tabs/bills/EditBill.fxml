@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.strobl.frontend.tabs.bills.EditBillController">
+   <children>
+      <GridPane prefHeight="400.0" prefWidth="600.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="145.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="317.0" minWidth="10.0" prefWidth="140.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="281.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="textProject" />
+            <TextField fx:id="textAmount" GridPane.rowIndex="1" />
+            <TextField fx:id="textOrderedBy" GridPane.rowIndex="2" />
+            <TextField fx:id="textSeller" GridPane.rowIndex="3" />
+            <TextField fx:id="textReason" GridPane.rowIndex="4" />
+            <TextArea fx:id="textItems" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project" GridPane.columnIndex="1">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amount (ct)" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ordered By" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seller" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Items (new line each)" wrappingWidth="164.42333984375" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <RadioButton fx:id="buttonIntake" mnemonicParsing="false" text="Intake" />
+                  <RadioButton fx:id="buttonDigital" mnemonicParsing="false" text="Digitial" />
+                  <RadioButton fx:id="buttonPaid" mnemonicParsing="false" text="Paid" />
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="dateOrdered" prefHeight="26.0" prefWidth="160.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ordered" wrappingWidth="84.7294921875">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="dateReceived" prefHeight="26.0" prefWidth="160.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Received" wrappingWidth="103.7294921875">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="datePaid" prefHeight="26.0" prefWidth="160.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Paid" wrappingWidth="84.7294921875">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="66.0" prefWidth="120.0" visible="false" />
+                  <Button fx:id="buttonSubmit" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#submitBill" prefHeight="26.0" prefWidth="150.0" text="Submit Change" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <Accordion layoutX="-202.0" layoutY="-89.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</AnchorPane>
