@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import net.strobl.management.App;
+import net.strobl.management.Manager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,15 +51,17 @@ public class MainController implements Initializable {
     }
 
     public void loadBills(ActionEvent event) throws IOException {
-        anchorPaneDisplay.getChildren().removeAll();
-        if (viewBills != null) {
-            anchorPaneDisplay.getChildren().setAll(viewBills);
-        } else {
-            viewBills = FXMLLoader.load(getClass().getResource("/net/strobl/frontend/tabs/bills/Bills.fxml"));
-            anchorPaneDisplay.getChildren().setAll(viewBills);
-        }
+        if(Manager.getDataManager().getPostgreSQLDataManager().isConnected()){
+            anchorPaneDisplay.getChildren().removeAll();
+            if (viewBills != null) {
+                anchorPaneDisplay.getChildren().setAll(viewBills);
+            } else {
+                viewBills = FXMLLoader.load(getClass().getResource("/net/strobl/frontend/tabs/bills/Bills.fxml"));
+                anchorPaneDisplay.getChildren().setAll(viewBills);
+            }
 
-        labelCurrentTab.setText("Bills");
+            labelCurrentTab.setText("Bills");
+        }
     }
 
     public void loadProjects(ActionEvent event) throws IOException {
@@ -88,6 +91,10 @@ public class MainController implements Initializable {
     public void exit(ActionEvent event) {
 //        BillsController.stopTimer();
         App.exit();
+    }
+
+    public void activateBillButton(){
+
     }
 
     @Override

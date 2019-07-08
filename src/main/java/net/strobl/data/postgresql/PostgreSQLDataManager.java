@@ -22,7 +22,7 @@ public class PostgreSQLDataManager {
     // [1] = "password": "SamplePass",
     // [2] = "url": "jdbc:postgresql://SampleSite.com:5432/SampleDatabase"
 
-    private String[] credentials = new String[3];
+    private String[] credentials = new String[4];
 
     private Boolean connected = false;
 
@@ -30,13 +30,14 @@ public class PostgreSQLDataManager {
         credentials[0] = JSONManager.readCredentials()[0];
         credentials[1] = JSONManager.readCredentials()[1];
         credentials[2] = JSONManager.readCredentials()[2];
+        credentials[3] = JSONManager.readCredentials()[3];
     }
 
 
     public void connectToDataBase() {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(credentials[2], credentials[0], credentials[1]);
+            connection = DriverManager.getConnection(credentials[0], credentials[2], credentials[3]);
         } catch (ClassNotFoundException | SQLException e) {
             connection = null;
         }
@@ -68,6 +69,7 @@ public class PostgreSQLDataManager {
     public void closeCurrentDataBase() {
         try {
             connection.close();
+            connected = false;
         } catch (SQLException e) {
             e.printStackTrace();
         }

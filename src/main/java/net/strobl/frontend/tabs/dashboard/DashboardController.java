@@ -1,8 +1,14 @@
 package net.strobl.frontend.tabs.dashboard;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import net.strobl.data.json.JSONManager;
+import net.strobl.management.Manager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,28 +16,54 @@ import java.util.ResourceBundle;
 public class DashboardController implements Initializable {
 
     @FXML
-    LineChart dataTestChart;
+    LineChart chartMoneyTime;
+    @FXML
+    StackedAreaChart chartProjectMoney;
 
-/*
-    public void addPrice() {
-        XYChart.Series series = new XYChart.Series();
-        ObservableList<Bill> tmp = Manager.getDataManager().getPostgreSQLData().getAllBillsNoUnpaid();
-        double current = 0;
-        for (int i = 0; i < tmp.size(); i++) {
-            if (tmp.get(i).isIsIntake() && tmp.get(i).isIsPaid()) {
-                current += ((double) tmp.get(i).getAmountInCent()) / 100;
-            } else if (!tmp.get(i).isIsIntake() && tmp.get(i).isIsPaid()) {
-                current -= ((double) tmp.get(i).getAmountInCent()) / 100;
-            }
+    ObservableList<LineChart.Series> chartMTSerieses;
+    ObservableList<StackedAreaChart.Series> chartPMSerieses;
 
-            series.getData().add(new XYChart.Data(String.valueOf(i), current));
-        }
-        dataTestChart.getData().add(series);
+    @FXML
+    Label labelCurrentMoney;
+    @FXML
+    Label labelLastProject;
+    @FXML
+    Button buttonConnect;
+    @FXML
+    Label labelCurrMoney;
+    @FXML
+    Label labelLProject;
+
+
+    private void setTranslation(){
+        labelCurrentMoney.setText(Manager.getLang().getTranslation(Manager.getKeys()[0]));
+        labelLastProject.setText(Manager.getLang().getTranslation(Manager.getKeys()[0]));
+        labelCurrMoney.setText(Manager.getLang().getTranslation(Manager.getKeys()[2]));
+        labelLProject.setText(Manager.getLang().getTranslation(Manager.getKeys()[3]));
+        buttonConnect.setText(Manager.getLang().getTranslation(Manager.getKeys()[1]));
+        chartMoneyTime.setTitle(Manager.getLang().getTranslation(Manager.getKeys()[4]));
+        chartProjectMoney.setTitle(Manager.getLang().getTranslation(Manager.getKeys()[5]));
     }
-*/
+
+    public static void update(){
+
+    }
+
+    private void setCharts(){
+        chartMoneyTime.getData().setAll(chartMTSerieses);
+        chartProjectMoney.getData().setAll(chartMTSerieses);
+    }
+
+    private void setLabls(){
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //addPrice();
+        if(!JSONManager.isEmpty()){
+            Manager.getDataManager().getPostgreSQLDataManager().setCredentialsWithJSON();
+            Manager.getDataManager().getPostgreSQLDataManager().connectToDataBase();
+        }
+        setTranslation();
     }
 }
