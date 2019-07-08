@@ -1,5 +1,7 @@
 package net.strobl.frontend.tabs.settings;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,8 +22,6 @@ public class SettingsController implements Initializable {
     @FXML
     Button buttonTestConnection;
     @FXML
-    Button buttonCreateTable;
-    @FXML
     ToggleButton toggleDarkMode;
     @FXML
     TextField textDatabase;
@@ -30,13 +30,17 @@ public class SettingsController implements Initializable {
     @FXML
     PasswordField textPassword;
     @FXML
-    TextField textCreateTableName;
-    @FXML
     Circle circleTestIndicator;
     @FXML
     ComboBox comboSelectLang;
+    @FXML
+    Label labelDataBase;
+    @FXML
+    Label labelUser;
+    @FXML
+    Label labelPassword;
 
-    private String hostname, username, password, table;
+    private String hostname, username, password;
     private int currLangNum = 0;
     private boolean darkmode = false;
 
@@ -72,13 +76,20 @@ public class SettingsController implements Initializable {
         return tmp;
     }
 
+    private void setTranslation(){
+        labelDataBase.setText(Manager.getLang().getTranslation(Manager.getKeys()[7]));
+        labelUser.setText(Manager.getLang().getTranslation(Manager.getKeys()[8]));
+        labelPassword.setText(Manager.getLang().getTranslation(Manager.getKeys()[9]));
+        comboSelectLang.setPromptText(Manager.getLang().getTranslation(Manager.getKeys()[10]));
+        buttonTestConnection.setText(Manager.getLang().getTranslation(Manager.getKeys()[11]));
+    }
+
     private void setCredentials() {
         if (checkFields()) {
             hostname = textDatabase.getText();
             username = textUser.getText();
             password = textPassword.getText();
-            table = "";
-            JSONManager.writeCredentials(hostname, table, username, password);
+            JSONManager.writeCredentials(hostname, username, password);
             Manager.getDataManager().getPostgreSQLDataManager().setCredentialsWithJSON();
 
             if (Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
@@ -103,9 +114,9 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setTranslation();
         if (!JSONManager.isEmpty()) {
             hostname = JSONManager.readCredentials()[0];
-            table = JSONManager.readCredentials()[1];
             username = JSONManager.readCredentials()[2];
             password = JSONManager.readCredentials()[3];
             textDatabase.setText(hostname);
@@ -120,7 +131,8 @@ public class SettingsController implements Initializable {
         textDatabase.setPromptText("Please enter a valid IP Address");
         textUser.setPromptText("Please enter your Database's User");
         textPassword.setPromptText("Enter your password");
-        comboSelectLang.getItems().setAll(Manager.getLanguages());
+        ObservableList<String> items = FXCollections.observableArrayList(Manager.getLanguages());
+        comboSelectLang.getItems().setAll(items);
     }
 
     public void comboAction(ActionEvent event){

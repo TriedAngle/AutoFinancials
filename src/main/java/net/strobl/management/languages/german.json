@@ -4,5 +4,11 @@
   "current_money": "Geldbestand:",
   "last_project": "Letztes Projekt:",
   "money_over_time": "Geld/Zeit",
-  "compare_projects": "Projekte Vergleichen"
+  "compare_projects": "Projekte Vergleichen",
+  "specify_input": "Eingabe benötigt",
+  "hostname": "IP-Adresse:",
+  "username": "Benutzername:",
+  "password": "Passwort:",
+  "select_language": "Sprache auswählen",
+  "test_connection": "Verbindung testen"
 }

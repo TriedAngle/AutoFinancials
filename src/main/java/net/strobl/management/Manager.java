@@ -24,7 +24,13 @@ public class Manager {
             "current_money",        //2
             "last_project",         //3
             "money_over_time",      //4
-            "compare_projects"      //5
+            "compare_projects",     //5
+            "specify_input",        //6
+            "hostname",             //7
+            "username",             //8
+            "password",             //9
+            "select_language",      //10
+            "test_connection"       //11
     };
 
     public Manager(App app){

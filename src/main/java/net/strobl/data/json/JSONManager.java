@@ -34,9 +34,8 @@ public class JSONManager {
             String content = new String((Files.readAllBytes(Paths.get(USER_DATA_LOCATION))));
             JSONObject jsonObject = new JSONObject(content);
             credentials[0] = jsonObject.getString("url");
-            credentials[1] = jsonObject.getString("table");
-            credentials[2] = jsonObject.getString("username");
-            credentials[3] = jsonObject.getString("password");
+            credentials[1] = jsonObject.getString("username");
+            credentials[2] = jsonObject.getString("password");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,11 +43,10 @@ public class JSONManager {
         return credentials;
     }
 
-    public static void writeCredentials(String url, String table, String username, String password){
+    public static void writeCredentials(String url, String username, String password){
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("url", url);
-            jsonObject.put("table", table);
             jsonObject.put("username", username);
             jsonObject.put("password", password);
             try (FileWriter file = new FileWriter(USER_DATA_LOCATION)) {

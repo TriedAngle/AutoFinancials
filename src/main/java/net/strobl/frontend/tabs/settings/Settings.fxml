@@ -43,7 +43,7 @@
                     </rowConstraints>
                      <children>
                         <ToggleButton fx:id="toggleDarkMode" mnemonicParsing="false" text="Darkmode" GridPane.columnIndex="1" />
-                        <ComboBox fx:id="comboSelectLang" onAction="#comboAction" prefWidth="150.0" promptText="Set Language" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboSelectLang" onAction="#comboAction" prefHeight="26.0" prefWidth="200.0" promptText="Set Language" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>
@@ -78,12 +78,11 @@
                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Database" />
-                        <Label text="User" GridPane.rowIndex="1" />
-                        <Label text="Password" GridPane.rowIndex="2" />
+                        <Label fx:id="labelDataBase" text="Database" />
+                        <Label fx:id="labelUser" text="User" GridPane.rowIndex="1" />
+                        <Label fx:id="labelPassword" text="Password" GridPane.rowIndex="2" />
                         <TextField fx:id="textDatabase" GridPane.columnIndex="1" />
                         <TextField fx:id="textUser" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="comboSelectTable" prefHeight="26.0" prefWidth="295.0" promptText="Select Table" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <PasswordField fx:id="textPassword" />
@@ -102,9 +101,6 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <Label text="Table" GridPane.rowIndex="3" />
-                        <TextField fx:id="textCreateTableName" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Button fx:id="buttonCreateTable" mnemonicParsing="false" onAction="#createTable" text="Create Table" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                </children>
