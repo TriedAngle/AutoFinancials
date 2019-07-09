@@ -28,7 +28,7 @@ public class SettingsController implements Initializable {
     @FXML
     TextField textUser;
     @FXML
-    PasswordField textPassword;
+    TextField textPassword;
     @FXML
     Circle circleTestIndicator;
     @FXML
@@ -61,16 +61,16 @@ public class SettingsController implements Initializable {
 
     private boolean checkFields() {
         boolean tmp = true;
-        if (textDatabase.getText().equals("")) {
-            textDatabase.setText("specify input");
+        if (hostname.equals("")) {
+            textDatabase.setPromptText("specify input");
             tmp = false;
         }
-        if (textUser.getText().equals("")) {
-            textUser.setText("specify input");
+        if (username.equals("")) {
+            textUser.setPromptText("specify input");
             tmp = false;
         }
-        if (textPassword.getText().equals("")) {
-            textPassword.setText("specify input");
+        if (password.equals("")) {
+            textPassword.setPromptText("specify input");
             tmp = false;
         }
         return tmp;
@@ -85,10 +85,10 @@ public class SettingsController implements Initializable {
     }
 
     private void setCredentials() {
+        hostname = textDatabase.getText();
+        username = textUser.getText();
+        password = textPassword.getText();
         if (checkFields()) {
-            hostname = textDatabase.getText();
-            username = textUser.getText();
-            password = textPassword.getText();
             JSONManager.writeCredentials(hostname, username, password);
             Manager.getDataManager().getPostgreSQLDataManager().setCredentialsWithJSON();
 
@@ -117,8 +117,8 @@ public class SettingsController implements Initializable {
         setTranslation();
         if (!JSONManager.isEmpty()) {
             hostname = JSONManager.readCredentials()[0];
-            username = JSONManager.readCredentials()[2];
-            password = JSONManager.readCredentials()[3];
+            username = JSONManager.readCredentials()[1];
+            password = JSONManager.readCredentials()[2];
             textDatabase.setText(hostname);
             textUser.setText(username);
             textPassword.setText(password);

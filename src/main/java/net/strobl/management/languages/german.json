@@ -10,5 +10,9 @@
   "username": "Benutzername:",
   "password": "Passwort:",
   "select_language": "Sprache auswählen",
-  "test_connection": "Verbindung testen"
+  "test_connection": "Verbindung testen",
+  "dashboard": "Dashboard",
+  "bills": "Rechnungen",
+  "projects": "Projekte",
+  "settings": "Einstellungen"
 }

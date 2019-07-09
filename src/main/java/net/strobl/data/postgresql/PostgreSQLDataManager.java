@@ -22,22 +22,23 @@ public class PostgreSQLDataManager {
     // [1] = "password": "SamplePass",
     // [2] = "url": "jdbc:postgresql://SampleSite.com:5432/SampleDatabase"
 
-    private String[] credentials = new String[4];
+    private String[] credentials = new String[3];
 
     private Boolean connected = false;
+    private final String BILL_TABLE_NAME = "BILLS";
+    private final String TECHNIC_INVENTORY = "TECHVINTORY";
 
     public void setCredentialsWithJSON() {
         credentials[0] = JSONManager.readCredentials()[0];
         credentials[1] = JSONManager.readCredentials()[1];
         credentials[2] = JSONManager.readCredentials()[2];
-        credentials[3] = JSONManager.readCredentials()[3];
     }
 
 
     public void connectToDataBase() {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(credentials[0], credentials[2], credentials[3]);
+            connection = DriverManager.getConnection(credentials[0], credentials[1], credentials[2]);
         } catch (ClassNotFoundException | SQLException e) {
             connection = null;
         }
@@ -75,26 +76,54 @@ public class PostgreSQLDataManager {
         }
     }
 
-    public void createTableAtCurrentDatabase(String tableName) {
+    public void setupDatabase(){
+        if(!checkTableExistance(BILL_TABLE_NAME) && !checkTableExistance(TECHNIC_INVENTORY)) {
+            createTableAtCurrentDatabase(BILL_TABLE_NAME);
+            createTableAtCurrentDatabase(TECHNIC_INVENTORY);
+        }
+    }
+
+    public void createTableAtCurrentDatabase(String table) {
         Statement statement = null;
         try {
-            statement = connection.createStatement();
-            String sql = "CREATE TABLE SMVBILLS " +
-                    "(ID INT PRIMARY KEY     NOT NULL," +
-                    " PROJECTNAME           TEXT        NOT NULL, " +
-                    " AMOUNTINCENT          INT         NOT NULL, " +
-                    " ISINTAKE              BOOLEAN     NOT NULL, " +
-                    " ISDIGITAL             BOOLEAN     NOT NULL, " +
-                    " ISPAID                BOOLEAN     NOT NULL, " +
-                    " DATEORDER             TEXT                , " +
-                    " DATERECEIVED          TEXT                , " +
-                    " DATEPAYMENT           TEXT                , " +
-                    " ORDEREDBY             TEXT                , " +
-                    " SELLER                TEXT                , " +
-                    " ITEMS                 TEXT[]              , " +
-                    " REASON                TEXT                  )";
-            statement.executeUpdate(sql);
-            statement.close();
+            if(table.equals(BILL_TABLE_NAME)){
+                statement = connection.createStatement();
+                String sql = "CREATE TABLE " + table +
+                        "(ID INT PRIMARY KEY                NOT NULL," +
+                        " PROJECTNAME           TEXT        NOT NULL, " +
+                        " AMOUNTINCENT          INT         NOT NULL, " +
+                        " ISINTAKE              BOOLEAN     NOT NULL, " +
+                        " ISDIGITAL             BOOLEAN     NOT NULL, " +
+                        " ISPAID                BOOLEAN     NOT NULL, " +
+                        " DATEORDER             TEXT                , " +
+                        " DATERECEIVED          TEXT                , " +
+                        " DATEPAYMENT           TEXT                , " +
+                        " ORDEREDBY             TEXT                , " +
+                        " SELLER                TEXT                , " +
+                        " ITEMS                 TEXT[]              , " +
+                        " REASON                TEXT                ) ";
+                statement.executeUpdate(sql);
+                statement.close();
+            }else if(table.equals(TECHNIC_INVENTORY)){
+                statement = connection.createStatement();
+
+                String sql = "CREATE TABLE " + table +
+                        "(ID INT PRIMARY KEY                NOT NULL, " +
+                        " MODEL                 TEXT        NOT NULL, " +
+                        " PRODUCER              TEXT        NOT NULL, " +
+                        " TYPE                  TEXT        NOT NULL, " +
+                        " PRICEBOUGHT           INT         NOT NULL, " +
+                        " PRICEBOUGHTDATE       TEXT        NOT NULL, " +
+                        " CURRPRICE             INT                 , " +
+                        " CURRPRICEDATE         TEXT                , " +
+                        " DESCRIPTION           TEXT                ) ";
+
+                statement.executeUpdate(sql);
+                statement.close();
+            }else {
+                System.out.println("invalid tablename/table already exists");
+            }
+
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
@@ -131,7 +160,6 @@ public class PostgreSQLDataManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 

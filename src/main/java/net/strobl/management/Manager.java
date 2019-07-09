@@ -30,7 +30,11 @@ public class Manager {
             "username",             //8
             "password",             //9
             "select_language",      //10
-            "test_connection"       //11
+            "test_connection",      //11
+            "dashboard",            //12
+            "bills",                //13
+            "projects",             //14
+            "settings"
     };
 
     public Manager(App app){

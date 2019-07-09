@@ -1,0 +1,18 @@
+{
+  "please_connect": "먼저 연결",
+  "connect_now": "잇다",
+  "current_money": "현재돈",
+  "last_project": "마지막 프로잭트",
+  "money_over_time": "시간당돈",
+  "compare_projects": "프로잭트 비교",
+  "specify_input": "값 지정",
+  "hostname": "호스트 이름:",
+  "username": "사용자 이름:",
+  "password": "암호:",
+  "select_language": "언어 선택",
+  "test_connection": "태스트 연결",
+  "dashboard": "서리정",
+  "bills": "지폐",
+  "projects": "계획",
+  "settings": "설정"
+}

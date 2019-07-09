@@ -5,6 +5,7 @@ module autofinancials.main {
     requires org.json;
     requires java.sql;
     requires opencsv;
+    requires postgresql;
     opens net.strobl.management;
     opens net.strobl.processing;
     opens net.strobl.frontend.general to javafx.fxml;
