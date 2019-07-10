@@ -80,6 +80,10 @@ public class PostgreSQLDataManager {
         if(!checkTableExistance(BILL_TABLE_NAME) && !checkTableExistance(TECHNIC_INVENTORY)) {
             createTableAtCurrentDatabase(BILL_TABLE_NAME);
             createTableAtCurrentDatabase(TECHNIC_INVENTORY);
+            //TODO graphic response
+
+        }else {
+            //TODO graphic response
         }
     }
 
@@ -110,12 +114,13 @@ public class PostgreSQLDataManager {
                 String sql = "CREATE TABLE " + table +
                         "(ID INT PRIMARY KEY                NOT NULL, " +
                         " MODEL                 TEXT        NOT NULL, " +
+                        " PODUCTID              TEXT        NOT NULL, " +
                         " PRODUCER              TEXT        NOT NULL, " +
                         " TYPE                  TEXT        NOT NULL, " +
                         " PRICEBOUGHT           INT         NOT NULL, " +
                         " PRICEBOUGHTDATE       TEXT        NOT NULL, " +
-                        " CURRPRICE             INT                 , " +
-                        " CURRPRICEDATE         TEXT                , " +
+                        " PRICECURR             INT                 , " +
+                        " RPRICECURRDATE        TEXT                , " +
                         " DESCRIPTION           TEXT                ) ";
 
                 statement.executeUpdate(sql);
