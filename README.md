@@ -22,10 +22,9 @@
 ## Installation
 
 ### Prerequisites
-
-#### Java
-
-The project and some of its libraries use openjdk11, although I think it would work with jdk 8, 9 and 10 it is not tested nor recommended to do so.
+JDK 11 and gradle is required for this project.
+While a guide for a java installation is written here, gradle is not.
+To install gradle I personally recommend SDK MAN found here
 
 ##### Windows:
 coming soon
@@ -53,44 +52,15 @@ Available Java environments:
     
 $ archlinux-java-set java-11-openjdk/jre
 ```
+### Installation
 
-#### Libraries:
-Adding libraries to your project \
-the parts of each library that have to be added, can be found on their documentary
-
-##### Adding Libraries
-
-IntelliJ-IDEA:
+As gradle is used now, simply type 
 ```
-open project -> File -> Project Structure -> Project Structure -> Modules -> +
+gradle build
 ```
-
-Eclipse:
-Coming soon
-
-Libraries: (Link + Versions will follow soon)
-- JavaFX-11
-- OpenCSV
-- PostgreSQL
-- org.json
-
-### Configure Database
-
-coming soon
-
 ### Configure Application
 
-1. Rename *UserData.json.sample* to *UserData.json* under "AutoFinancials/src/net/strobl/data/json" and add your 
-   postgres server ip address and your login credentials. The following is an example on what it should look like.
-    ```JSON
-    {
-       "username": "Sebastian",
-       "password": "vErysEcUrePasSwORD!1!",
-       "url": "jdbc:postgresql://strobl.net:5432/NotAValidDataBase"
-    } 
-    ```
-2. launch application
-3. Some other setup options will be coming soon
+No configuration needed anymore as all options are now contained in the application gui
 
 ## Usage
 A guide will be coming soon

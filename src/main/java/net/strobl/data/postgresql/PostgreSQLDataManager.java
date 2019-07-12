@@ -12,6 +12,7 @@ import net.strobl.processing.Bill;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class PostgreSQLDataManager {
 
@@ -53,10 +54,23 @@ public class PostgreSQLDataManager {
 
     public void testConnection(String url, String username, String password){
         try {
+//            url = "jdbc:postgresql://" + url;
+//            System.out.println(url);
+//            System.out.println(username);
+//            System.out.println(password);
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException | SQLException e) {
+//            connection = DriverManager.getConnection(url, username, password);
+            String urll = "jdbc:postgresql://thewaveearthsociety.com:5432/testbase";
+            Properties props = new Properties();
+            props.setProperty("user","sebastian");
+            props.setProperty("password","Coolcool123");
+            props.setProperty("ssl","false");
+            Connection conn = DriverManager.getConnection(urll, props);
+
+        } catch (SQLException e) {
             connection = null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         if (connection == null) {
             connected = false;
@@ -113,12 +127,12 @@ public class PostgreSQLDataManager {
 
                 String sql = "CREATE TABLE " + table +
                         "(ID INT PRIMARY KEY                NOT NULL, " +
-                        " MODEL                 TEXT        NOT NULL, " +
-                        " PODUCTID              TEXT        NOT NULL, " +
-                        " PRODUCER              TEXT        NOT NULL, " +
+                        " MODEL                 TEXT                , " +
+                        " PODUCTID              TEXT                , " +
+                        " PRODUCER              TEXT                , " +
                         " TYPE                  TEXT        NOT NULL, " +
-                        " PRICEBOUGHT           INT         NOT NULL, " +
-                        " PRICEBOUGHTDATE       TEXT        NOT NULL, " +
+                        " PRICEBOUGHT           INT                 , " +
+                        " PRICEBOUGHTDATE       TEXT                , " +
                         " PRICECURR             INT                 , " +
                         " RPRICECURRDATE        TEXT                , " +
                         " DESCRIPTION           TEXT                ) ";
@@ -182,12 +196,12 @@ public class PostgreSQLDataManager {
         return false;
     }
 
-    public int getLatestID(){
+    public int getLatestID(String tableName){
         Statement statement = null;
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String sql = "SELECT MAX(ID) FROM SMVBILLS";
+            String sql = "SELECT MAX(ID) FROM" + tableName;
             ResultSet rs = statement.executeQuery(sql);
             int i = 0;
             if (rs.next()){
@@ -202,7 +216,6 @@ public class PostgreSQLDataManager {
         return 0;
     }
 
-
     public void resetSequence(){
 
     }
@@ -214,9 +227,28 @@ public class PostgreSQLDataManager {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
             String sql =
-                    "INSERT INTO " + " SMVBILLS " + " (ID,PROJECTNAME,AMOUNTINCENT,ISINTAKE,ISDIGITAL,ISPAID,DATEORDER,DATERECEIVED,DATEPAYMENT,ORDEREDBY,SELLER,ITEMS,REASON) "
+                    "INSERT INTO " + BILL_TABLE_NAME + " (ID,PROJECTNAME,AMOUNTINCENT,ISINTAKE,ISDIGITAL,ISPAID,DATEORDER,DATERECEIVED,DATEPAYMENT,ORDEREDBY,SELLER,ITEMS,REASON) "
                     + "VALUES (" + billID + "," + "'" + project + "'" + "," + amountInCent + "," + isIntake + "," + isDigital + "," + isPaid + "," + "'" + dateOfOrder + "'" + ","
                     + "'" + dateOfReceive + "'" + "," + "'" + dateOfPayment + "'" + "," + "'" + orderedBy + "'" + "," + "'" + seller + "'" + "," + "'" + itemArray + "'" + "," + "'" + reason + "'" + ");";
+
+            statement.executeUpdate(sql);
+            statement.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertTechItem(int itemID, String model, String productID, String producer, String type, int priceBought,
+                               String priceBoughtDate, int priceCurr, String priceCurrDate, String description){
+        Statement statement = null;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String sql = "INSERT INTO " + TECHNIC_INVENTORY + " (ID,MODEL,PRODUCTID,PRODUCER,TYPE,PRICEBOUGHT,PRICEBOUGHTDATE,PRICECURR,PRICECURRDATE,DESCRIPTION) "
+                            + "VALUES (" + itemID + "," + "'" + model + "'" + "," + producer + "," + type + "," +
+                    priceBought + "," + priceBoughtDate + "," + "'" + priceCurr + "'" + "," + "'" + priceCurrDate + "'" + "," + "'" +
+                    description + "'" + ");";
 
             statement.executeUpdate(sql);
             statement.close();
@@ -272,6 +304,10 @@ public class PostgreSQLDataManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateTechItem(){
+
     }
 
     public Bill getSingleBill(int index){
