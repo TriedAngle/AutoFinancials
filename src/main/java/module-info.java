@@ -8,9 +8,9 @@ module autofinancials.main {
     requires postgresql;
     opens net.strobl.management;
     opens net.strobl.processing;
-    opens net.strobl.frontend.general to javafx.fxml;
-    opens net.strobl.frontend.tabs.dashboard to javafx.fxml;
-    opens net.strobl.frontend.tabs.bills to javafx.fxml;
-    opens net.strobl.frontend.tabs.projects to javafx.fxml;
-    opens net.strobl.frontend.tabs.settings to javafx.fxml;
+    opens net.strobl.frontend.general;
+    opens net.strobl.frontend.tabs.dashboard;
+    opens net.strobl.frontend.tabs.bills;
+    opens net.strobl.frontend.tabs.projects;
+    opens net.strobl.frontend.tabs.settings;
 }

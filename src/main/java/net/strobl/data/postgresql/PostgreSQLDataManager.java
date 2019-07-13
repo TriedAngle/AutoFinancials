@@ -26,8 +26,8 @@ public class PostgreSQLDataManager {
     private String[] credentials = new String[3];
 
     private Boolean connected = false;
-    private final String BILL_TABLE_NAME = "BILLS";
-    private final String TECHNIC_INVENTORY = "TECHVINTORY";
+    public final String BILL_TABLE_NAME = "BILLS";
+    public final String TECHNIC_INVENTORY = "TECHVINTORY";
 
     public void setCredentialsWithJSON() {
         credentials[0] = JSONManager.readCredentials()[0];
@@ -38,9 +38,14 @@ public class PostgreSQLDataManager {
 
     public void connectToDataBase() {
         try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(credentials[0], credentials[1], credentials[2]);
-        } catch (ClassNotFoundException | SQLException e) {
+            Properties props = new Properties();
+            props.setProperty("user", credentials[1]);
+            props.setProperty("password", credentials[2]);
+            props.setProperty("ssl","true");
+
+            connection = DriverManager.getConnection(credentials[0], props);
+        } catch (SQLException e) {
+            e.printStackTrace();
             connection = null;
         }
         if (connection == null) {
@@ -54,22 +59,15 @@ public class PostgreSQLDataManager {
 
     public void testConnection(String url, String username, String password){
         try {
-//            url = "jdbc:postgresql://" + url;
-//            System.out.println(url);
-//            System.out.println(username);
-//            System.out.println(password);
-            Class.forName("org.postgresql.Driver");
-//            connection = DriverManager.getConnection(url, username, password);
-            String urll = "jdbc:postgresql://thewaveearthsociety.com:5432/testbase";
             Properties props = new Properties();
-            props.setProperty("user","sebastian");
-            props.setProperty("password","Coolcool123");
-            props.setProperty("ssl","false");
-            Connection conn = DriverManager.getConnection(urll, props);
+            props.setProperty("user", username);
+            props.setProperty("password", password);
+            props.setProperty("ssl","true");
+
+            connection = DriverManager.getConnection(url, props);
 
         } catch (SQLException e) {
             connection = null;
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         if (connection == null) {
