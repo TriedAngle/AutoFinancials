@@ -8,5 +8,5 @@ build/
 AutoFinancials.iml
 
 src/main/java/net/strobl/data/json/UserData\.json
+src/main/java/net/strobl/data/json/Settings\.json
 
-*.json

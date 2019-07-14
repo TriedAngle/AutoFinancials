@@ -1,0 +1,18 @@
+{
+  "please_connect": "Please Connect First",
+  "connect_now": "Connect Now",
+  "current_money": "Current Money",
+  "last_project": "Last Project",
+  "money_over_time": "Money/Time",
+  "compare_projects": "Compare Projects",
+  "specify_input": "specify a value",
+  "hostname": "Hostname:",
+  "username": "Username:",
+  "password": "Password:",
+  "select_language": "Select a Language",
+  "test_connection": "test connection",
+  "dashboard": "Dashboard",
+  "bills": "Bills",
+  "projects": "Projects",
+  "settings": "Settings"
+}
