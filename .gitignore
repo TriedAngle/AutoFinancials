@@ -6,3 +6,5 @@ build/
 .idea/
 
 AutoFinancials.iml
+
+src/main/java/net/strobl/data/json/UserData\.json
