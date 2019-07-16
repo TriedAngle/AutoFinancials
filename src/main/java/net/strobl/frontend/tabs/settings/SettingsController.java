@@ -47,15 +47,14 @@ public class SettingsController implements Initializable {
 
     public boolean testConnection(ActionEvent event) {
         if (checkFields()) {
-            Manager.getDataManager().getPostgreSQLDataManager().testConnection(hostname, username, password);
-            if (Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
-                Manager.getDataManager().getPostgreSQLDataManager().closeCurrentDataBase();
+            if(Manager.getDataManager().getPostgreSQLDataManager().isConnected()){
                 circleTestIndicator.setFill(Color.GREEN);
+            }
                 return true;
             } else {
                 circleTestIndicator.setFill(Color.RED);
             }
-        }
+
         return false;
     }
 
@@ -90,15 +89,6 @@ public class SettingsController implements Initializable {
         password = textPassword.getText();
         if (checkFields()) {
             JSONManager.writeCredentials(hostname, username, password);
-            Manager.getDataManager().getPostgreSQLDataManager().setCredentialsWithJSON();
-
-            if (Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
-                Manager.getDataManager().getPostgreSQLDataManager().closeCurrentDataBase();
-            }
-            if (!Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
-                Manager.getDataManager().getPostgreSQLDataManager().connectToDataBase();
-            }
-
         }
 
     }

@@ -29,7 +29,7 @@ public class JSONManager {
     }
 
     public static String[] readCredentials(){
-        String[] credentials = new String[4];
+        String[] credentials = new String[3];
         try {
             String content = new String((Files.readAllBytes(Paths.get(USER_DATA_LOCATION))));
             JSONObject jsonObject = new JSONObject(content);
@@ -64,7 +64,7 @@ public class JSONManager {
             JSONObject jsonObject = new JSONObject(content);
             langNum = jsonObject.getInt("language");
         } catch (IOException e) {
-            e.printStackTrace();
+            writeSettings(0, false);
         }
         return langNum;
     }

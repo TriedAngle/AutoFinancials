@@ -86,8 +86,7 @@ public class BillsController implements Initializable {
 
 
     private void generateMenuButtonItems() {
-        if (Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
-
+        if (Manager.getDataManager().getPostgreSQLDataManager().isConnected() && Manager.getDataManager().getPostgreSQLData().getAllBills() != null) {
             for (String name : Manager.getDataManager().getPostgreSQLData().getProjectNames()) {
                 if (!menuItemNames.contains(name)) {
                     menuItems.add(new MenuItem(name));
@@ -159,7 +158,7 @@ public class BillsController implements Initializable {
     }
 
     private void populateBills() {
-        displayBills.setItems(Manager.getDataManager().getPostgreSQLData().getSeparatedBills());
+        displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().getAllBills());
         columnBillID.setCellValueFactory(new PropertyValueFactory<>("billID"));
         columnAmount.setCellValueFactory(new PropertyValueFactory<>("realAmount"));
         columnDateOfOrder.setCellValueFactory(new PropertyValueFactory<>("dateOfOrder"));
@@ -222,7 +221,7 @@ public class BillsController implements Initializable {
             }
             if (tmp) {
                 int index = Integer.valueOf(textDeleteBill.getText());
-                if (!(index > Manager.getDataManager().getPostgreSQLData().getAllBills().size()) || !(index <= 0)) {
+                if (!(index > Manager.getDataManager().getPostgreSQLDataManager().getAllBills().size()) || !(index <= 0)) {
                     Manager.getDataManager().getPostgreSQLDataManager().deleteRow(index);
                 } else {
                     textDeleteBill.setText("");
@@ -236,8 +235,11 @@ public class BillsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
-            displayBills.setItems(Manager.getDataManager().getPostgreSQLData().getAllBills());
-            Manager.getDataManager().getPostgreSQLData().setMoney(currentText, true);
+            displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().getAllBills());
+            if(Manager.getDataManager().getPostgreSQLData().getAllBills() != null){
+                //Manager.getDataManager().getPostgreSQLData().setMoney(currentText, true);
+
+            }
             labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getSpent()) / 100));
             labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getGained()) / 100));
             labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getRevenue()) / 100));
@@ -249,9 +251,6 @@ public class BillsController implements Initializable {
     }
 
     public void refresh() {
-        Manager.getDataManager().getPostgreSQLData().setAllBills();
-        Manager.getDataManager().getPostgreSQLData().setSeparatedBills(currentText, showUnpaid);
-        Manager.getDataManager().getPostgreSQLData().setProjectNames();
         generateMenuButtonItems();
         populateBills();
     }

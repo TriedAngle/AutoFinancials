@@ -1,5 +1,6 @@
 package net.strobl.data.postgresql;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import net.strobl.management.Manager;
 import net.strobl.processing.Bill;
@@ -69,8 +70,7 @@ public class PostgreSQLData {
     }
 
     public void setAllBills() {
-        allBills = null;
-        allBills = Manager.getDataManager().getPostgreSQLDataManager().fetchFilteredBills("All", true);
+        allBills = FXCollections.observableList(Manager.getDataManager().getPostgreSQLDataManager().getAllBills());
     }
 
     public void setSeparatedBills(String filterName, Boolean showUnpaid) {

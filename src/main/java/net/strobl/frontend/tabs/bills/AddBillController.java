@@ -115,8 +115,9 @@ public class AddBillController implements Initializable {
     public void submitBill(ActionEvent event) {
         if (checkInput()) {
             setVarsByInput();
-            Manager.getDataManager().getPostgreSQLDataManager().insertData(Manager.getDataManager().getPostgreSQLDataManager().getLatestID(Manager.getDataManager().getPostgreSQLDataManager().BILL_TABLE_NAME), project, amount, intake, digital, paid, dateOfOrder, dateOfReceive, dateOfPayment, orderedBy, seller, itemsString, reason);
-            Manager.getDataManager().getPostgreSQLData().setAllBills();
+
+            Manager.getDataManager().getPostgreSQLDataManager().insertData(Manager.getDataManager().getPostgreSQLDataManager().getLatestID(), project, amount, intake, digital, paid, dateOfOrder, dateOfReceive, dateOfPayment, orderedBy, seller, itemsString, reason);
+
         }
 
     }

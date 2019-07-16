@@ -2,6 +2,7 @@ package net.strobl.management;
 
 import net.strobl.data.csv.CSVData;
 import net.strobl.data.csv.CSVDataManager;
+import net.strobl.data.json.JSONManager;
 import net.strobl.data.postgresql.PostgreSQLData;
 import net.strobl.data.postgresql.PostgreSQLDataManager;
 
@@ -15,12 +16,14 @@ public class DataManager {
 
     public DataManager(Manager manager) {
         this.manager = manager;
-
         CSVData = new CSVData();
         csvDataManager = new CSVDataManager();
-
         postgreSQLData = new PostgreSQLData();
         postgreSQLDataManager = new PostgreSQLDataManager();
+        if(!JSONManager.isEmpty()) {
+            postgreSQLDataManager.setCredentialsWithJSON();
+            postgreSQLDataManager.connectToDataBase();
+        }
     }
 
     public PostgreSQLData getPostgreSQLData() {

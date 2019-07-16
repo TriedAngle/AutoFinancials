@@ -41,7 +41,7 @@ public class PostgreSQLDataManager {
             Properties props = new Properties();
             props.setProperty("user", credentials[1]);
             props.setProperty("password", credentials[2]);
-            props.setProperty("ssl","true");
+            props.setProperty("ssl", "false");
 
             connection = DriverManager.getConnection(credentials[0], props);
         } catch (SQLException e) {
@@ -57,12 +57,12 @@ public class PostgreSQLDataManager {
         }
     }
 
-    public void testConnection(String url, String username, String password){
+    public void testConnection(String url, String username, String password) {
         try {
             Properties props = new Properties();
             props.setProperty("user", username);
             props.setProperty("password", password);
-            props.setProperty("ssl","true");
+            props.setProperty("ssl", "false");
 
             connection = DriverManager.getConnection(url, props);
 
@@ -88,21 +88,13 @@ public class PostgreSQLDataManager {
         }
     }
 
-    public void setupDatabase(){
-        if(!checkTableExistance(BILL_TABLE_NAME) && !checkTableExistance(TECHNIC_INVENTORY)) {
-            createTableAtCurrentDatabase(BILL_TABLE_NAME);
-            createTableAtCurrentDatabase(TECHNIC_INVENTORY);
-            //TODO graphic response
-
-        }else {
-            //TODO graphic response
-        }
+    public void setupDatabase() {
     }
 
     public void createTableAtCurrentDatabase(String table) {
         Statement statement = null;
         try {
-            if(table.equals(BILL_TABLE_NAME)){
+            if (table.equals(BILL_TABLE_NAME)) {
                 statement = connection.createStatement();
                 String sql = "CREATE TABLE " + table +
                         "(ID INT PRIMARY KEY                NOT NULL," +
@@ -120,7 +112,7 @@ public class PostgreSQLDataManager {
                         " REASON                TEXT                ) ";
                 statement.executeUpdate(sql);
                 statement.close();
-            }else if(table.equals(TECHNIC_INVENTORY)){
+            } else if (table.equals(TECHNIC_INVENTORY)) {
                 statement = connection.createStatement();
 
                 String sql = "CREATE TABLE " + table +
@@ -137,7 +129,7 @@ public class PostgreSQLDataManager {
 
                 statement.executeUpdate(sql);
                 statement.close();
-            }else {
+            } else {
                 System.out.println("invalid tablename/table already exists");
             }
 
@@ -148,7 +140,7 @@ public class PostgreSQLDataManager {
         System.out.println("Table created successfully");
     }
 
-    public ObservableList<String> getTableNames(){
+    public ObservableList<String> getTableNames() {
         ObservableList<String> tableNames = FXCollections.observableArrayList();
 
         try {
@@ -166,7 +158,7 @@ public class PostgreSQLDataManager {
         return tableNames;
     }
 
-    public boolean checkTableExistance(String tableName){
+    public boolean checkTableExistance(String tableName) {
         try {
             DatabaseMetaData md = connection.getMetaData();
             ResultSet rs = null;
@@ -180,7 +172,7 @@ public class PostgreSQLDataManager {
         return false;
     }
 
-    public boolean checkColumnExistance(String tableName, String columnName){
+    public boolean checkColumnExistance(String tableName, String columnName) {
         try {
             DatabaseMetaData md = connection.getMetaData();
             ResultSet rs = md.getColumns(null, null, tableName, columnName);
@@ -188,22 +180,22 @@ public class PostgreSQLDataManager {
                 return true;
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public int getLatestID(String tableName){
+    public int getLatestID() {
         Statement statement = null;
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String sql = "SELECT MAX(ID) FROM" + tableName;
+            String sql = "SELECT MAX(ID) FROM " + BILL_TABLE_NAME;
             ResultSet rs = statement.executeQuery(sql);
             int i = 0;
-            if (rs.next()){
-               i = rs.getInt(1)  + 1;
+            if (rs.next()) {
+                i = rs.getInt(1) + 1;
             }
             statement.close();
             connection.commit();
@@ -214,7 +206,7 @@ public class PostgreSQLDataManager {
         return 0;
     }
 
-    public void resetSequence(){
+    public void resetSequence() {
 
     }
 
@@ -226,8 +218,8 @@ public class PostgreSQLDataManager {
             statement = connection.createStatement();
             String sql =
                     "INSERT INTO " + BILL_TABLE_NAME + " (ID,PROJECTNAME,AMOUNTINCENT,ISINTAKE,ISDIGITAL,ISPAID,DATEORDER,DATERECEIVED,DATEPAYMENT,ORDEREDBY,SELLER,ITEMS,REASON) "
-                    + "VALUES (" + billID + "," + "'" + project + "'" + "," + amountInCent + "," + isIntake + "," + isDigital + "," + isPaid + "," + "'" + dateOfOrder + "'" + ","
-                    + "'" + dateOfReceive + "'" + "," + "'" + dateOfPayment + "'" + "," + "'" + orderedBy + "'" + "," + "'" + seller + "'" + "," + "'" + itemArray + "'" + "," + "'" + reason + "'" + ");";
+                            + "VALUES (" + billID + "," + "'" + project + "'" + "," + amountInCent + "," + isIntake + "," + isDigital + "," + isPaid + "," + "'" + dateOfOrder + "'" + ","
+                            + "'" + dateOfReceive + "'" + "," + "'" + dateOfPayment + "'" + "," + "'" + orderedBy + "'" + "," + "'" + seller + "'" + "," + "'" + itemArray + "'" + "," + "'" + reason + "'" + ");";
 
             statement.executeUpdate(sql);
             statement.close();
@@ -238,13 +230,13 @@ public class PostgreSQLDataManager {
     }
 
     public void insertTechItem(int itemID, String model, String productID, String producer, String type, int priceBought,
-                               String priceBoughtDate, int priceCurr, String priceCurrDate, String description){
+                               String priceBoughtDate, int priceCurr, String priceCurrDate, String description) {
         Statement statement = null;
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
             String sql = "INSERT INTO " + TECHNIC_INVENTORY + " (ID,MODEL,PRODUCTID,PRODUCER,TYPE,PRICEBOUGHT,PRICEBOUGHTDATE,PRICECURR,PRICECURRDATE,DESCRIPTION) "
-                            + "VALUES (" + itemID + "," + "'" + model + "'" + "," + producer + "," + type + "," +
+                    + "VALUES (" + itemID + "," + "'" + model + "'" + "," + producer + "," + type + "," +
                     priceBought + "," + priceBoughtDate + "," + "'" + priceCurr + "'" + "," + "'" + priceCurrDate + "'" + "," + "'" +
                     description + "'" + ");";
 
@@ -261,7 +253,7 @@ public class PostgreSQLDataManager {
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String sql = "DELETE FROM smvbills WHERE id = " + index + ";";
+            String sql = "DELETE FROM " + BILL_TABLE_NAME + " WHERE id = " + index + ";";
             statement.executeUpdate(sql);
             statement.close();
             connection.commit();
@@ -270,7 +262,7 @@ public class PostgreSQLDataManager {
         }
     }
 
-    public void updateBill(int billID, String project, int amountInCent, boolean isIntake, boolean isDigital, boolean isPaid, String dateOfOrder, String dateOfReceive, String dateOfPayment, String orderedBy, String seller, String[] items, String reason){
+    public void updateBill(int billID, String project, int amountInCent, boolean isIntake, boolean isDigital, boolean isPaid, String dateOfOrder, String dateOfReceive, String dateOfPayment, String orderedBy, String seller, String[] items, String reason) {
         Statement statement = null;
         Array itemArray = null;
         try {
@@ -281,7 +273,7 @@ public class PostgreSQLDataManager {
             //        + "VALUES (" + "'" + project + "'" + "," + amountInCent + "," + isIntake + "," + isDigital + "," + isPaid + "," + "'" + dateOfOrder + "'" + ","
             //        + "'" + dateOfReceive + "'" + "," + "'" + dateOfPayment + "'" + "," + "'" + orderedBy + "'" + "," + "'" + seller + "'" + "," + "'" + itemArray + "'" + "," + "'" + reason + "'" + " WHERE id = " + billID + ");";
 
-            String  sql = "UPDATE smvbills " +
+            String sql = "UPDATE " + BILL_TABLE_NAME + " " +
                     "SET " +
                     "projectname = " + "'" + project + "'" + ", " +
                     "amountincent = " + amountInCent + ", " +
@@ -289,12 +281,12 @@ public class PostgreSQLDataManager {
                     "isdigital = " + isDigital + ", " +
                     "ispaid = " + isPaid + ", " +
                     "dateorder = " + "'" + dateOfOrder + "'" + ", " +
-                    "datereceived = " + "'" + dateOfReceive  + "'" + ", " +
+                    "datereceived = " + "'" + dateOfReceive + "'" + ", " +
                     "datepayment = " + "'" + dateOfPayment + "'" + ", " +
                     "orderedby = " + "'" + orderedBy + "'" + ", " +
                     "seller = " + "'" + seller + "'" + ", " +
                     "items = " + "'" + itemArray + "'" + ", " +
-                    "reason = " + "'" + reason + "' "  +
+                    "reason = " + "'" + reason + "' " +
                     "WHERE id = " + billID;
             statement.executeUpdate(sql);
             statement.close();
@@ -304,17 +296,17 @@ public class PostgreSQLDataManager {
         }
     }
 
-    public void updateTechItem(){
+    public void updateTechItem() {
 
     }
 
-    public Bill getSingleBill(int index){
+    public Bill getSingleBill(int index) {
         Statement statement = null;
         Bill bill = null;
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String sql = "SELECT * FROM smvbills WHERE id = " + index + ";";
+            String sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE id = " + index + ";";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 SimpleIntegerProperty billID = new SimpleIntegerProperty(rs.getInt("id"));
@@ -351,10 +343,71 @@ public class PostgreSQLDataManager {
             SimpleStringProperty seller = new SimpleStringProperty("");
             String[] items = new String[0];
             ObservableList<String> observableItems = FXCollections.observableArrayList(items);
-            SimpleStringProperty reason = new SimpleStringProperty("");
+            SimpleStringProperty reason = new SimpleStringProperty("Not a valid Bill, error");
             bill = new Bill(billID, project, amountInCent, isIntake, isDigital, isPaid, dateOfOrder, dateOfReceive, dateOfPayment, reason, orderedBy, seller, observableItems);
         }
         return bill;
+    }
+
+    public ObservableList<Bill> getAllBills() {
+        ObservableList<Bill> bills = FXCollections.observableArrayList();
+        Statement statement = null;
+        if (connected) {
+            try {
+                connection.setAutoCommit(false);
+
+                statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT * FROM " + BILL_TABLE_NAME);
+                while (rs.next()) {
+                    SimpleIntegerProperty billID = new SimpleIntegerProperty(rs.getInt("id"));
+                    SimpleStringProperty project = new SimpleStringProperty(rs.getString("projectname"));
+                    SimpleIntegerProperty amountInCent = new SimpleIntegerProperty(rs.getInt("amountincent"));
+                    SimpleBooleanProperty isIntake = new SimpleBooleanProperty(rs.getBoolean("isintake"));
+                    SimpleBooleanProperty isDigital = new SimpleBooleanProperty(rs.getBoolean("isdigital"));
+                    SimpleBooleanProperty isPaid = new SimpleBooleanProperty(rs.getBoolean("ispaid"));
+                    SimpleStringProperty dateOfOrder = new SimpleStringProperty(rs.getString("dateorder"));
+                    SimpleStringProperty dateOfReceive = new SimpleStringProperty(rs.getString("datereceived"));
+                    SimpleStringProperty dateOfPayment = new SimpleStringProperty(rs.getString("datepayment"));
+                    SimpleStringProperty orderedBy = new SimpleStringProperty(rs.getString("orderedby"));
+                    SimpleStringProperty seller = new SimpleStringProperty(rs.getString("seller"));
+                    Array arrayItems = rs.getArray("items");
+                    String[] items = (String[]) arrayItems.getArray();
+                    ObservableList<String> observableItems = FXCollections.observableArrayList(items);
+                    SimpleStringProperty reason = new SimpleStringProperty(rs.getString("reason"));
+                    /*
+                    if(!isIntake.get()){
+                        amountInCent.set(-amountInCent.get());
+                    }
+                    */
+
+                    bills.add(new Bill(billID, project, amountInCent, isIntake, isDigital, isPaid, dateOfOrder, dateOfReceive, dateOfPayment, reason, orderedBy, seller, observableItems));
+                }
+                rs.close();
+                statement.close();
+            } catch (Exception e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                System.exit(0);
+            }
+        } else {
+            SimpleIntegerProperty billID = new SimpleIntegerProperty(0);
+            SimpleStringProperty project = new SimpleStringProperty("");
+            SimpleIntegerProperty amountInCent = new SimpleIntegerProperty(0);
+            SimpleBooleanProperty isIntake = new SimpleBooleanProperty(false);
+            SimpleBooleanProperty isDigital = new SimpleBooleanProperty(false);
+            SimpleBooleanProperty isPaid = new SimpleBooleanProperty(false);
+            SimpleStringProperty dateOfOrder = new SimpleStringProperty("");
+            SimpleStringProperty dateOfReceive = new SimpleStringProperty("");
+            SimpleStringProperty dateOfPayment = new SimpleStringProperty("");
+            SimpleStringProperty orderedBy = new SimpleStringProperty("");
+            SimpleStringProperty seller = new SimpleStringProperty("");
+            SimpleStringProperty reason = new SimpleStringProperty("");
+            ObservableList<String> observableItems = FXCollections.observableArrayList();
+            observableItems.add("");
+            bills.add(new Bill(billID, project, amountInCent, isIntake, isDigital, isPaid, dateOfOrder, dateOfReceive, dateOfPayment, reason, orderedBy, seller, observableItems));
+
+        }
+
+        return bills;
     }
 
     public ObservableList<Bill> fetchFilteredBills(String filterName, Boolean showUnpaid) {
@@ -421,6 +474,7 @@ public class PostgreSQLDataManager {
     private String fetchFilter(String filterName, Boolean showUnpaid) {
         String sql = "";
         if (!filterName.equals("All")) {
+            Manager.getDataManager().getPostgreSQLData().setProjectNames();
             for (String name : Manager.getDataManager().getPostgreSQLData().getProjectNames()) {
                 if (name.equals(filterName)) {
                     if (!showUnpaid) {
@@ -433,9 +487,9 @@ public class PostgreSQLDataManager {
         }
         if (filterName.equals("All")) {
             if (!showUnpaid) {
-                sql = "SELECT * FROM smvbills WHERE ispaid = true";
+                sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE ispaid = true";
             } else {
-                sql = "SELECT * FROM smvbills";
+                sql = "SELECT * FROM " + BILL_TABLE_NAME;
             }
         }
 
@@ -450,7 +504,7 @@ public class PostgreSQLDataManager {
         if (connected.equals(true)) {
             try {
                 statement = connection.createStatement();
-                String sql = "SELECT DISTINCT projectname FROM smvbills";
+                String sql = "SELECT DISTINCT projectname FROM " + BILL_TABLE_NAME;
                 ResultSet rs = statement.executeQuery(sql);
                 while (rs.next()) {
                     projectnames.add(rs.getString("projectname"));
@@ -460,7 +514,6 @@ public class PostgreSQLDataManager {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-
             }
         } else {
             projectnames.add("no data");

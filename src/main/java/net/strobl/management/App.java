@@ -47,7 +47,7 @@ public class App extends Application {
     }
 
     public static void exit(){
-        if(Manager.getDataManager().getPostgreSQLDataManager().isConnected()){
+        if(!Manager.getDataManager().getPostgreSQLDataManager().isConnected()){
             Manager.getDataManager().getPostgreSQLDataManager().closeCurrentDataBase();
         }
         Platform.exit();

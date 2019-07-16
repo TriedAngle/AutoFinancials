@@ -60,10 +60,6 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(!JSONManager.isEmpty()){
-            Manager.getDataManager().getPostgreSQLDataManager().setCredentialsWithJSON();
-            Manager.getDataManager().getPostgreSQLDataManager().connectToDataBase();
-        }
         setTranslation();
     }
 }
