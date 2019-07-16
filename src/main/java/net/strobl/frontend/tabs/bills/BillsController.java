@@ -86,8 +86,8 @@ public class BillsController implements Initializable {
 
 
     private void generateMenuButtonItems() {
-        if (Manager.getDataManager().getPostgreSQLDataManager().isConnected() && Manager.getDataManager().getPostgreSQLData().getAllBills() != null) {
-            for (String name : Manager.getDataManager().getPostgreSQLData().getProjectNames()) {
+        if (Manager.getDataManager().getPostgreSQLDataManager().isConnected() && Manager.getDataManager().getPostgreSQLDataManager().getAllBills() != null) {
+            for (String name : Manager.getDataManager().getPostgreSQLDataManager().getProjectNames()) {
                 if (!menuItemNames.contains(name)) {
                     menuItems.add(new MenuItem(name));
                     menuItemNames.add(name);
@@ -109,17 +109,14 @@ public class BillsController implements Initializable {
 
     private void selectButtonActions(int index) {
         if (Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
-            for (String name : Manager.getDataManager().getPostgreSQLData().getProjectNames()) {
+            for (String name : Manager.getDataManager().getPostgreSQLDataManager().getProjectNames()) {
                 if (name.equals(menuItems.get(index).getText())) {
-                    Manager.getDataManager().getPostgreSQLData().setSeparatedBills(name, showUnpaid);
-
-                    displayBills.setItems(Manager.getDataManager().getPostgreSQLData().getSeparatedBills());
+                    displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().fetchFilteredBills(name, showUnpaid));
                     currentText = name;
                     buttonSelectProject.setText(name);
-                    Manager.getDataManager().getPostgreSQLData().setMoney(currentText, showUnpaid);
-                    labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getSpent()) / 100));
-                    labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getGained()) / 100));
-                    labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getRevenue()) / 100));
+                    labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, showUnpaid)[0]) / 100));
+                    labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, showUnpaid)[1]) / 100));
+                    labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, showUnpaid)[2]) / 100));
                 }
             }
         }
@@ -129,28 +126,23 @@ public class BillsController implements Initializable {
     public void toggleShowUnpaid(ActionEvent event) {
         if (Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
             showUnpaid = !showUnpaid;
-            if (currentText.equals("All") || currentText.equals("")) {
+            if (currentText.equals("All")) {
                 if (showUnpaid) {
-                    displayBills.setItems(Manager.getDataManager().getPostgreSQLData().getAllBills());
-                    Manager.getDataManager().getPostgreSQLData().setMoney("All", true);
-                    labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getSpent()) / 100));
-                    labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getGained()) / 100));
-                    labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getRevenue()) / 100));
+                    displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().getAllBills());
+                    labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney("All", true)[0]) / 100));
+                    labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney("All", true)[1]) / 100));
+                    labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney("All", true)[2]) / 100));
                 } else {
-                    displayBills.setItems(Manager.getDataManager().getPostgreSQLData().getAllBillsNoUnpaid());
-                    Manager.getDataManager().getPostgreSQLData().setMoney("All", false);
-                    labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getSpent()) / 100));
-                    labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getGained()) / 100));
-                    labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getRevenue()) / 100));
+                    displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().fetchFilteredBills("All", false));
+                    labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney("All", false)[0]) / 100));
+                    labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney("All", false)[1]) / 100));
+                    labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney("All", false)[2]) / 100));
                 }
-            }
-            if (!currentText.equals("All") || !currentText.equals("")) {
-                Manager.getDataManager().getPostgreSQLData().setSeparatedBills(currentText, showUnpaid);
-                displayBills.setItems(Manager.getDataManager().getPostgreSQLData().getSeparatedBills());
-                Manager.getDataManager().getPostgreSQLData().setMoney(currentText, showUnpaid);
-                labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getSpent()) / 100));
-                labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getGained()) / 100));
-                labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getRevenue()) / 100));
+            }else {
+                displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().fetchFilteredBills(currentText, showUnpaid));
+                labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, showUnpaid)[0]) / 100));
+                labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, showUnpaid)[1]) / 100));
+                labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, showUnpaid)[2]) / 100));
             }
             populateBills();
         }
@@ -236,13 +228,11 @@ public class BillsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(Manager.getDataManager().getPostgreSQLDataManager().isConnected()) {
             displayBills.setItems(Manager.getDataManager().getPostgreSQLDataManager().getAllBills());
-            if(Manager.getDataManager().getPostgreSQLData().getAllBills() != null){
-                //Manager.getDataManager().getPostgreSQLData().setMoney(currentText, true);
-
+            if(Manager.getDataManager().getPostgreSQLDataManager().getAllBills() != null){
+                labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, true)[0]) / 100));
+                labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, true)[1]) / 100));
+                labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLDataManager().getMoney(currentText, true)[2]) / 100));
             }
-            labelMoneySpent.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getSpent()) / 100));
-            labelMoneyGained.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getGained()) / 100));
-            labelTotalRevenue.setText(String.valueOf(((double) Manager.getDataManager().getPostgreSQLData().getRevenue()) / 100));
             populateBills();
             generateMenuButtonItems();
         }

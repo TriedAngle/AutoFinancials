@@ -35,7 +35,6 @@ public class PostgreSQLDataManager {
         credentials[2] = JSONManager.readCredentials()[2];
     }
 
-
     public void connectToDataBase() {
         try {
             Properties props = new Properties();
@@ -206,10 +205,6 @@ public class PostgreSQLDataManager {
         return 0;
     }
 
-    public void resetSequence() {
-
-    }
-
     public void insertData(int billID, String project, int amountInCent, boolean isIntake, boolean isDigital, boolean isPaid, String dateOfOrder, String dateOfReceive, String dateOfPayment, String orderedBy, String seller, String[] items, String reason) {
         Statement statement = null;
         try {
@@ -229,8 +224,7 @@ public class PostgreSQLDataManager {
         }
     }
 
-    public void insertTechItem(int itemID, String model, String productID, String producer, String type, int priceBought,
-                               String priceBoughtDate, int priceCurr, String priceCurrDate, String description) {
+    public void insertTechItem(int itemID, String model, String productID, String producer, String type, int priceBought, String priceBoughtDate, int priceCurr, String priceCurrDate, String description) {
         Statement statement = null;
         try {
             connection.setAutoCommit(false);
@@ -374,11 +368,6 @@ public class PostgreSQLDataManager {
                     String[] items = (String[]) arrayItems.getArray();
                     ObservableList<String> observableItems = FXCollections.observableArrayList(items);
                     SimpleStringProperty reason = new SimpleStringProperty(rs.getString("reason"));
-                    /*
-                    if(!isIntake.get()){
-                        amountInCent.set(-amountInCent.get());
-                    }
-                    */
 
                     bills.add(new Bill(billID, project, amountInCent, isIntake, isDigital, isPaid, dateOfOrder, dateOfReceive, dateOfPayment, reason, orderedBy, seller, observableItems));
                 }
@@ -435,11 +424,6 @@ public class PostgreSQLDataManager {
                     String[] items = (String[]) arrayItems.getArray();
                     ObservableList<String> observableItems = FXCollections.observableArrayList(items);
                     SimpleStringProperty reason = new SimpleStringProperty(rs.getString("reason"));
-                    /*
-                    if(!isIntake.get()){
-                        amountInCent.set(-amountInCent.get());
-                    }
-                    */
 
                     bills.add(new Bill(billID, project, amountInCent, isIntake, isDigital, isPaid, dateOfOrder, dateOfReceive, dateOfPayment, reason, orderedBy, seller, observableItems));
                 }
@@ -474,18 +458,16 @@ public class PostgreSQLDataManager {
     private String fetchFilter(String filterName, Boolean showUnpaid) {
         String sql = "";
         if (!filterName.equals("All")) {
-            Manager.getDataManager().getPostgreSQLData().setProjectNames();
-            for (String name : Manager.getDataManager().getPostgreSQLData().getProjectNames()) {
+            for (String name : Manager.getDataManager().getPostgreSQLDataManager().getProjectNames()) {
                 if (name.equals(filterName)) {
                     if (!showUnpaid) {
-                        sql = "SELECT * FROM smvbills WHERE projectname LIKE '" + name + "'" + "AND ispaid = true";
+                        sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE projectname LIKE '" + name + "'" + " AND ispaid = true";
                     } else {
-                        sql = "SELECT * FROM smvbills WHERE projectname LIKE '" + name + "'";
+                        sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE projectname LIKE '" + name + "'";
                     }
                 }
             }
-        }
-        if (filterName.equals("All")) {
+        }else {
             if (!showUnpaid) {
                 sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE ispaid = true";
             } else {
@@ -496,9 +478,9 @@ public class PostgreSQLDataManager {
         return sql;
     }
 
-
     public List<String> getProjectNames() {
         List<String> projectnames = new ArrayList<>();
+        projectnames.add("All");
         Statement statement = null;
 
         if (connected.equals(true)) {
@@ -519,6 +501,61 @@ public class PostgreSQLDataManager {
             projectnames.add("no data");
         }
         return projectnames;
+    }
+
+    public int[] getMoney(String filterName, boolean calcUnpaid) {
+        int spent = 0, gained = 0, revenue = 0;
+        String currentFilterName;
+        Boolean currentShowUnpaid;
+        String currentCalcName;
+        boolean currentCalcUnpaid;
+        currentCalcName = filterName;
+        currentCalcUnpaid = calcUnpaid;
+
+        if (calcUnpaid) {
+            if (filterName.equals("All") || filterName.equals("")) {
+                for (Bill bill : getAllBills()) {
+                    if (!bill.isIsIntake()) {
+                        spent += bill.getAmountInCent();
+                    }
+                    if (bill.isIsIntake()) {
+                        gained += bill.getAmountInCent();
+                    }
+                }
+            } else {
+                for (Bill bill : Manager.getDataManager().getPostgreSQLDataManager().fetchFilteredBills(filterName, calcUnpaid)) {
+                    if (!bill.isIsIntake()) {
+                        spent += bill.getAmountInCent();
+                    }
+                    if (bill.isIsIntake()) {
+                        gained += bill.getAmountInCent();
+                    }
+                }
+            }
+        }
+        if (!calcUnpaid) {
+            if (filterName.equals("All") || filterName.equals("")) {
+                for (Bill bill : getAllBills()) {
+                    if (!bill.isIsIntake() && bill.isIsPaid()) {
+                        spent += bill.getAmountInCent();
+                    }
+                    if (bill.isIsIntake() && bill.isIsPaid()) {
+                        gained += bill.getAmountInCent();
+                    }
+                }
+            } else {
+                for (Bill bill : Manager.getDataManager().getPostgreSQLDataManager().fetchFilteredBills(filterName, calcUnpaid)) {
+                    if (!bill.isIsIntake() && bill.isIsPaid()) {
+                        spent += bill.getAmountInCent();
+                    }
+                    if (bill.isIsIntake() && bill.isIsPaid()) {
+                        gained += bill.getAmountInCent();
+                    }
+                }
+            }
+        }
+        revenue = gained - spent;
+        return new int[]{spent, gained, revenue};
     }
 
     @Deprecated
