@@ -36,7 +36,7 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <Button fx:id="buttonConnect" layoutX="1465.0" layoutY="43.0" mnemonicParsing="false" text="Connect Now" />
+      <Button fx:id="buttonConnect" layoutX="1465.0" layoutY="43.0" mnemonicParsing="false" onAction="#connectNow" text="Connect Now" />
       <StackedAreaChart fx:id="chartProjectMoney" layoutX="14.0" layoutY="450.0" title="Compare Projects">
         <xAxis>
           <NumberAxis side="BOTTOM" />

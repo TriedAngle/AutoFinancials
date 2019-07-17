@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class JSONManager {
@@ -30,15 +29,16 @@ public class JSONManager {
 
     public static String[] readCredentials(){
         String[] credentials = new String[3];
-        try {
-            String content = new String((Files.readAllBytes(Paths.get(USER_DATA_LOCATION))));
-            JSONObject jsonObject = new JSONObject(content);
-            credentials[0] = jsonObject.getString("url");
-            credentials[1] = jsonObject.getString("username");
-            credentials[2] = jsonObject.getString("password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                String content = new String((Files.readAllBytes(Paths.get(USER_DATA_LOCATION))));
+                JSONObject jsonObject = new JSONObject(content);
+                credentials[0] = jsonObject.getString("url");
+                credentials[1] = jsonObject.getString("username");
+                credentials[2] = jsonObject.getString("password");
+            } catch (IOException e) {
+                writeCredentials("enter a valid url", "enter a username", "your password");
+                readCredentials();
+            }
 
         return credentials;
     }
@@ -49,9 +49,7 @@ public class JSONManager {
             jsonObject.put("url", url);
             jsonObject.put("username", username);
             jsonObject.put("password", password);
-            try (FileWriter file = new FileWriter(USER_DATA_LOCATION)) {
-                file.write(jsonObject.toString());
-            }
+            Files.write(Paths.get(USER_DATA_LOCATION), jsonObject.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,6 +63,7 @@ public class JSONManager {
             langNum = jsonObject.getInt("language");
         } catch (IOException e) {
             writeSettings(0, false);
+            readLanguageNum();
         }
         return langNum;
     }
@@ -74,9 +73,7 @@ public class JSONManager {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("language", languageNumber);
             jsonObject.put("darkmode", darkmode);
-            try (FileWriter file = new FileWriter(SETTINGS_LOCATION)) {
-                file.write(jsonObject.toString());
-            }
+            Files.write(Paths.get(SETTINGS_LOCATION), jsonObject.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

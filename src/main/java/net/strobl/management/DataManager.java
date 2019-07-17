@@ -18,8 +18,8 @@ public class DataManager {
         this.manager = manager;
         postgreSQLData = new PostgreSQLData();
         postgreSQLDataManager = new PostgreSQLDataManager();
+        postgreSQLDataManager.setCredentialsWithJSON();
         if(!JSONManager.isEmpty()) {
-            postgreSQLDataManager.setCredentialsWithJSON();
             postgreSQLDataManager.connectToDataBase();
         }
     }

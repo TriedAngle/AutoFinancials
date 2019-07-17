@@ -1,6 +1,7 @@
 package net.strobl.frontend.tabs.dashboard;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -52,6 +53,13 @@ public class DashboardController implements Initializable {
     private void setCharts(){
         chartMoneyTime.getData().setAll(chartMTSerieses);
         chartProjectMoney.getData().setAll(chartMTSerieses);
+    }
+
+    public void connectNow(ActionEvent event){
+        if(!Manager.getDataManager().getPostgreSQLDataManager().isConnected()){
+            Manager.getDataManager().getPostgreSQLDataManager().connectToDataBase();
+        }
+
     }
 
     private void setLabls(){

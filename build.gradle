@@ -3,12 +3,11 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.7'
+    id 'org.beryx.jlink' version '2.10.2'
 }
 
 group 'net.strobl.autofinancials'
 version '1.0-SNAPSHOT'
-
-sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -33,6 +32,12 @@ sourceSets {
 javafx {
     modules = [ 'javafx.controls' , 'javafx.fxml' , 'javafx.graphics']
     version = '11.0.2'
+}
+
+jlink {
+    launcher {
+        name = 'autofinancials'
+    }
 }
 
 mainClassName = 'net.strobl.management.App'

@@ -80,12 +80,15 @@ public class PostgreSQLDataManager {
     }
 
     public void closeCurrentDataBase() {
-        try {
-            connection.close();
-            connected = false;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(connected){
+            try {
+                connection.close();
+                connected = false;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     public void setupDatabase() {

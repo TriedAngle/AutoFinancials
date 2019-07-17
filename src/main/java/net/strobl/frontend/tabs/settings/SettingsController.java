@@ -88,7 +88,7 @@ public class SettingsController implements Initializable {
         username = textUser.getText();
         password = textPassword.getText();
         if (checkFields()) {
-            JSONManager.writeCredentials(hostname, username, password);
+            Manager.getJSON().writeCredentials(hostname, username, password);
         }
 
     }
@@ -106,9 +106,9 @@ public class SettingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setTranslation();
         if (!JSONManager.isEmpty()) {
-            hostname = JSONManager.readCredentials()[0];
-            username = JSONManager.readCredentials()[1];
-            password = JSONManager.readCredentials()[2];
+            hostname = Manager.getJSON().readCredentials()[0];
+            username = Manager.getJSON().readCredentials()[1];
+            password = Manager.getJSON().readCredentials()[2];
             textDatabase.setText(hostname);
             textUser.setText(username);
             textPassword.setText(password);
