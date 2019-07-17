@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import net.strobl.data.csv.CSVDataManager;
 import net.strobl.data.json.JSONManager;
 import net.strobl.management.Manager;
 import net.strobl.processing.Bill;
@@ -431,7 +432,6 @@ public class PostgreSQLDataManager {
                 statement.close();
             } catch (Exception e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
-                System.exit(0);
             }
         } else {
             SimpleIntegerProperty billID = new SimpleIntegerProperty(0);
@@ -457,21 +457,20 @@ public class PostgreSQLDataManager {
 
     private String fetchFilter(String filterName, Boolean showUnpaid) {
         String sql = "";
-        if (!filterName.equals("All")) {
-            for (String name : Manager.getDataManager().getPostgreSQLDataManager().getProjectNames()) {
-                if (name.equals(filterName)) {
-                    if (!showUnpaid) {
-                        sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE projectname LIKE '" + name + "'" + " AND ispaid = true";
-                    } else {
-                        sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE projectname LIKE '" + name + "'";
-                    }
-                }
-            }
-        }else {
-            if (!showUnpaid) {
-                sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE ispaid = true";
-            } else {
+        if (showUnpaid) {
+            if (filterName.equals("All")) {
                 sql = "SELECT * FROM " + BILL_TABLE_NAME;
+            }
+            if (!filterName.equals("All")) {
+                sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE projectname LIKE '" + filterName + "'";
+            }
+        }
+        if (!showUnpaid) {
+            if (filterName.equals("All")) {
+                sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE ispaid = true";
+            }
+            if (!filterName.equals("All")) {
+                sql = "SELECT * FROM " + BILL_TABLE_NAME + " WHERE projectname LIKE '" + filterName + "'" + " AND ispaid = true";
             }
         }
 
@@ -559,42 +558,42 @@ public class PostgreSQLDataManager {
     }
 
     @Deprecated
-    public void migrateDataFromCSVToDataBase() {
+    public void migrateDataFromCSVToDataBase(Boolean createTable) {
         //This code will migrate copy and paste all data from a csv File into an already connected Database;
 
         Statement statement = null;
-        try {
-
-            //Create the DataTable
-            statement = connection.createStatement();
-            String sql = "CREATE TABLE SMVBILLS " +
-                    "(ID INT PRIMARY KEY     NOT NULL," +
-                    " PROJECTNAME           TEXT        NOT NULL, " +
-                    " AMOUNTINCENT          INT         NOT NULL, " +
-                    " ISINTAKE              BOOLEAN     NOT NULL, " +
-                    " ISDIGITAL             BOOLEAN     NOT NULL, " +
-                    " ISPAID                BOOLEAN     NOT NULL, " +
-                    " DATEORDER             TEXT                , " +
-                    " DATERECEIVED          TEXT                , " +
-                    " DATEPAYMENT           TEXT                , " +
-                    " ORDEREDBY             TEXT                , " +
-                    " SELLER                TEXT                , " +
-                    " ITEMS                 TEXT[]              , " +
-                    " REASON                TEXT                  )";
-            statement.executeUpdate(sql);
-            statement.close();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+        //Create the DataTable
+        if(createTable) {
+            try {
+                statement = connection.createStatement();
+                String sql = "CREATE TABLE SMVBILLS " +
+                        "(ID INT PRIMARY KEY     NOT NULL," +
+                        " PROJECTNAME           TEXT        NOT NULL, " +
+                        " AMOUNTINCENT          INT         NOT NULL, " +
+                        " ISINTAKE              BOOLEAN     NOT NULL, " +
+                        " ISDIGITAL             BOOLEAN     NOT NULL, " +
+                        " ISPAID                BOOLEAN     NOT NULL, " +
+                        " DATEORDER             TEXT                , " +
+                        " DATERECEIVED          TEXT                , " +
+                        " DATEPAYMENT           TEXT                , " +
+                        " ORDEREDBY             TEXT                , " +
+                        " SELLER                TEXT                , " +
+                        " ITEMS                 TEXT[]              , " +
+                        " REASON                TEXT                  )";
+                statement.executeUpdate(sql);
+                statement.close();
+            } catch (Exception e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                System.exit(0);
+            }
         }
 
-        //Unnecessary line because items were never recorded
-        String[] allItems = new String[Manager.getDataManager().getCSVData().getAllCSVBills().size() + 1];
-
         //Get each bill and push it into the database
-        for (Bill bill : Manager.getDataManager().getCSVData().getAllCSVBills()) {
+        CSVDataManager CSVDataManager = new CSVDataManager();
+        CSVDataManager.readData();
+        for (Bill bill : CSVDataManager.getAllCSVBills()){
             //Database starts counting at index 1 so for better overview the id should start at 1 too, hence the +1
-            int billID = Manager.getDataManager().getCSVData().getAllCSVBills().indexOf(bill) + 1;
+            int billID = CSVDataManager.getAllCSVBills().indexOf(bill) + 1;
             String project = bill.getProject();
             int amountInCent = bill.getAmountInCent();
             boolean isIntake = bill.isIsIntake();
@@ -606,11 +605,6 @@ public class PostgreSQLDataManager {
             String orderedBy = bill.getOrderedBy();
             String seller = bill.getSeller();
 
-            //Unnecessary lines because items were never recorded
-            ObservableList<String> items = bill.getItems();
-            for (int i = 0; i < items.size(); i++) {
-                allItems[i] = items.get(i);
-            }
 
 
             String reason = bill.getReason();
@@ -618,7 +612,7 @@ public class PostgreSQLDataManager {
             try {
                 connection.setAutoCommit(false);
                 statement = connection.createStatement();
-                String sql = "INSERT INTO " + " SMVBILLS " + " (ID,PROJECTNAME,AMOUNTINCENT,ISINTAKE,ISDIGITAL,ISPAID,DATEORDER,DATERECEIVED,DATEPAYMENT,ORDEREDBY,SELLER,ITEMS,REASON) "
+                String sql = "INSERT INTO " + BILL_TABLE_NAME + " (ID,PROJECTNAME,AMOUNTINCENT,ISINTAKE,ISDIGITAL,ISPAID,DATEORDER,DATERECEIVED,DATEPAYMENT,ORDEREDBY,SELLER,ITEMS,REASON) "
                         + "VALUES (" + billID + "," + "'" + project + "'" + "," + amountInCent + "," + isIntake + "," + isDigital + "," + isPaid + "," + "'" + dateOfOrder + "'" + ","
                         + "'" + dateOfReceive + "'" + "," + "'" + dateOfPayment + "'" + "," + "'" + orderedBy + "'" + "," + "'" + seller + "'" + "," + "'" + " {0} " + "'" + "," + "'" + reason + "'" + ");";
 

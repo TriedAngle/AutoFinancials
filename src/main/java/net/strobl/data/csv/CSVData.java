@@ -15,11 +15,7 @@ public class CSVData {
 
 
     public void setAllCSVBills(){
-        try {
-            Manager.getDataManager().getCsvDataManager().readData("src/net/strobl/data/csv/BackupData.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Manager.getDataManager().getCsvDataManager().readData();
         allBills = Manager.getDataManager().getCsvDataManager().getAllCSVBills();
         setProjectNames();
         setSeparatedBills();

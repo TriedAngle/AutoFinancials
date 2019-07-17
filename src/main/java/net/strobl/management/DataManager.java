@@ -16,8 +16,6 @@ public class DataManager {
 
     public DataManager(Manager manager) {
         this.manager = manager;
-        CSVData = new CSVData();
-        csvDataManager = new CSVDataManager();
         postgreSQLData = new PostgreSQLData();
         postgreSQLDataManager = new PostgreSQLDataManager();
         if(!JSONManager.isEmpty()) {

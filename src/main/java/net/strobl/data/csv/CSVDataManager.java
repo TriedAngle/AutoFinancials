@@ -10,20 +10,29 @@ import javafx.collections.ObservableList;
 import net.strobl.processing.Bill;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVDataManager {
     private ObservableList<Bill> allCSVBills = FXCollections.observableArrayList();
 
-    public void readData(String path) throws IOException {
+    public void readData() {
+        String path = "src/main/java/net/strobl/data/csv/BackupData.csv";
+        List<String[]> allData = new ArrayList<>();
         allCSVBills = FXCollections.observableArrayList();
-        File file = new File(path);
-        FileReader fileReader = new FileReader(file);
-        CSVReader reader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+        try {
+            System.out.println("GYEF&TYEBFEYBF*EJF(EJF(EIJF(EJFI(EFJ(EUJFE(FJE");
+            FileReader fileReader = new FileReader(path);
+            System.out.println(fileReader);
+            CSVReader reader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+            allData = reader.readAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        List<String[]> allData = reader.readAll();
 
         for (String[] data : allData) {
             if (data.length > 1) {
