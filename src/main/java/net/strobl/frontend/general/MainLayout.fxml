@@ -9,7 +9,7 @@
    <children>
       <VBox prefHeight="1000.0" prefWidth="300.0" style="-fx-background-color: #333638;">
          <children>
-            <Label prefHeight="130.0" prefWidth="300.0" style="-fx-background-color: #16bdff;" text="AutoFinancials 0.6" textFill="WHITE">
+            <Label prefHeight="130.0" prefWidth="300.0" style="-fx-background-color: #16bdff;" text="AutoFinancials 0.9" textFill="WHITE">
                <font>
                   <Font name="Cantarell Extra Bold" size="30.0" />
                </font>
