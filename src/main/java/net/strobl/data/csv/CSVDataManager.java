@@ -24,7 +24,6 @@ public class CSVDataManager {
         List<String[]> allData = new ArrayList<>();
         allCSVBills = FXCollections.observableArrayList();
         try {
-            System.out.println("GYEF&TYEBFEYBF*EJF(EJF(EIJF(EJFI(EFJ(EUJFE(FJE");
             FileReader fileReader = new FileReader(path);
             System.out.println(fileReader);
             CSVReader reader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
