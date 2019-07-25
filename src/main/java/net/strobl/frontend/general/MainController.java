@@ -35,6 +35,7 @@ public class MainController implements Initializable {
     private Parent viewDashboard;
     private Parent viewBills;
     private Parent viewProjects;
+    private Parent viewTechvintory;
     private Parent viewSettings;
 
     public void loadDashboard(ActionEvent event) throws IOException {
@@ -47,6 +48,16 @@ public class MainController implements Initializable {
         }
 
         labelCurrentTab.setText("Dashboard");
+    }
+
+    public void loadTechvintory(ActionEvent event) throws IOException{
+        anchorPaneDisplay.getChildren().removeAll();
+        if (viewTechvintory != null){
+            anchorPaneDisplay.getChildren().setAll(viewTechvintory);
+        }else {
+            viewTechvintory = FXMLLoader.load(getClass().getResource("/net/strobl/frontend/tabs/techvintory/Techvintory.fxml"));
+            anchorPaneDisplay.getChildren().setAll(viewTechvintory);
+        }
     }
 
     public void loadBills(ActionEvent event) throws IOException {

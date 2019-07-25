@@ -1,0 +1,18 @@
+/*
+#displayBills *.scroll-bar:vertical *.increment-button,
+#displayBills *.scroll-bar:vertical *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+#displayBills *.scroll-bar:vertical *.increment-arrow,
+#displayBills *.scroll-bar:vertical *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+*/

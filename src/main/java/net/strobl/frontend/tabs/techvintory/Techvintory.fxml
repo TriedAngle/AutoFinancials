@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1620.0" stylesheets="@TableViewStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.strobl.frontend.tabs.techvintory.TechvintoryController">
+   <children>
+      <VBox layoutY="200.0" prefHeight="700.0" prefWidth="1620.0">
+         <children>
+            <TableView fx:id="displayModels" prefHeight="700.0" prefWidth="1620.0" stylesheets="@TableViewStyle.css">
+              <columns>
+                <TableColumn fx:id="columnModelID" prefWidth="102.0" text="Model ID" />
+                <TableColumn fx:id="columnModel" prefWidth="242.0" text="Model" />
+                  <TableColumn fx:id="columnProductID" prefWidth="150.0" text="Prodcut ID" />
+                  <TableColumn fx:id="columnProducer" prefWidth="169.0" text="Producer" />
+                  <TableColumn fx:id="columnType" prefWidth="130.0" text="Type" />
+                  <TableColumn fx:id="columnPriceBought" prefWidth="135.0" text="Price Bought" />
+                  <TableColumn fx:id="columnPriceBoughtDate" prefWidth="202.0" text="Price Bought Date" />
+                  <TableColumn fx:id="columnPriceCurrent" prefWidth="132.0" text="Current Price" />
+                  <TableColumn fx:id="columnPriceCurrentDate" prefWidth="172.0" text="Last Checked Date" />
+                  <TableColumn fx:id="columnDescription" prefWidth="185.0" text="Description" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <HBox prefHeight="200.0" prefWidth="1620.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Separator prefHeight="42.0" prefWidth="200.0" visible="false" />
+                  <Separator prefHeight="25.0" prefWidth="200.0" visible="false" />
+                  <MenuButton fx:id="menuSelectFilter" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="140.0" text="Filter" />
+                  <Separator prefHeight="25.0" prefWidth="200.0" visible="false" />
+                  <Separator prefHeight="43.0" prefWidth="200.0" visible="false" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="150.0" />
+            <VBox prefHeight="200.0" prefWidth="150.0" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="70.0" />
+            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <TextField fx:id="textDeleteBill" prefHeight="38.0" prefWidth="171.0" promptText="Model ID" />
+                  <Button fx:id="buttonDeleteModel" mnemonicParsing="false" prefHeight="44.0" prefWidth="121.0" text="Delete Model" />
+               </children>
+            </HBox>
+            <Button fx:id="buttonRefresh" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="Refresh" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="572.0" visible="false" />
+            <VBox prefHeight="200.0" prefWidth="215.0">
+               <children>
+                  <Separator prefHeight="85.0" prefWidth="71.0" visible="false" />
+                  <Button fx:id="buttonNewModel" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="198.0" text="Add new Model" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -8,7 +8,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import net.strobl.data.json.JSONManager;
 import net.strobl.management.Manager;
 
 import java.net.URL;
