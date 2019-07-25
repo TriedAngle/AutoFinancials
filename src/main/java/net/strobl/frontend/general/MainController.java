@@ -58,6 +58,7 @@ public class MainController implements Initializable {
             viewTechvintory = FXMLLoader.load(getClass().getResource("/net/strobl/frontend/tabs/techvintory/Techvintory.fxml"));
             anchorPaneDisplay.getChildren().setAll(viewTechvintory);
         }
+        labelCurrentTab.setText("Techvintory");
     }
 
     public void loadBills(ActionEvent event) throws IOException {
