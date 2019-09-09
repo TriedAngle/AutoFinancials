@@ -5,6 +5,7 @@ import net.strobl.data.csv.CSVDataManager;
 import net.strobl.data.json.JSONManager;
 import net.strobl.data.postgresql.PostgreSQLData;
 import net.strobl.data.postgresql.PostgreSQLDataManager;
+import net.strobl.processing.Bill;
 
 public class DataManager {
     private Manager manager;
@@ -19,6 +20,7 @@ public class DataManager {
         postgreSQLData = new PostgreSQLData();
         postgreSQLDataManager = new PostgreSQLDataManager();
         postgreSQLDataManager.setCredentialsWithJSON();
+
         if(!JSONManager.isEmpty()) {
             postgreSQLDataManager.connectToDataBase();
         }

@@ -9,11 +9,14 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
+import net.strobl.data.csv.CSVDataManager;
 import net.strobl.data.json.JSONManager;
+import net.strobl.data.postgresql.PostgreSQLDataManager;
 import net.strobl.management.Manager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import net.strobl.processing.Bill;
 
 public class SettingsController implements Initializable {
 
@@ -57,6 +60,8 @@ public class SettingsController implements Initializable {
 
         return false;
     }
+
+
 
     private boolean checkFields() {
         boolean tmp = true;
